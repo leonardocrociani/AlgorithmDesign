@@ -1,22 +1,24 @@
-function BoyerMoore(stream) {
-    let maj = null;
+function BoyerMoore(elements) {
+    let candidate = null;
     let count = 0;
 
-    for (let element of stream) {
+    for (let element of elements) {
         if (count == 0) {
-            maj = element;
+            candidate = element;
             count = 1;
-        } else if (element == maj) {
+        } else if (element == candidate) {
             count++;
         } else {
             count--;
         }
     }
 
-    return maj;
+    return count > elements.length / 2
+        ? candidate
+        : 'No majority element found'
 }
 
-function generateRandomStream(objects, length = 10e6) {
+function generateRandomStream(objects, length = 8) {
     // This is not an actual stream, it's just an array. Why? To isolate and show BoyerMoore function.
     let fakeStream = [];
     while(length > 0) {
@@ -27,9 +29,10 @@ function generateRandomStream(objects, length = 10e6) {
 }
 
 async function main() {
-    const stream = generateRandomStream(['🍓', '🍎', '🫐', '🍊', '🍋']);
+    const stream = generateRandomStream(['🍓', '🍎', '🫐']);
     const majorityElement = BoyerMoore(stream);
     console.log(`The majority element found: ${majorityElement}`);
 }
 
 main();
+
